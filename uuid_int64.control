@@ -1,0 +1,5 @@
+# General purpose UUID replacement using int64 internally
+comment = 'UUID implementation stored as 2 64-bit integer values'
+default_version = '0.1'
+module_pathname = '$libdir/uuid_int64'
+relocatable = true
