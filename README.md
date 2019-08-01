@@ -8,6 +8,7 @@ UUID values of any version or variant that is more efficient than the standard
 The tested scenarios where this data type is more efficient than the standard
 UUID are described shortly in the following section.
 
+
 ## Usage
 
 After the extension has been installed (see the Build/Install section), you can
@@ -21,6 +22,7 @@ CREATE TABLE my_log (
     ...
 );
 ```
+
 
 ## Internals
 
@@ -65,6 +67,9 @@ UUID spends ~50% of the time during INSERT's in this index page searching,
 while this should be less than 1% for the data type `uuid_int64` when using
 version 1 time-based UUID's.
 
+For any other UUID version, the overall performance benefit should be ~10-15 %,
+so still noticeable for larger data sets.
+
 
 ### SELECT / COPY ... TO
 
@@ -76,6 +81,8 @@ data type is ~4 times faster compared to the standard UUID output. However, the
 resulting overall performance benefit (e.g. using `COPY` with format `text`) is
 limited to a speedup of ~33 % due to processing in PostgreSQL itself which is
 not related to the actual data type.
+
+This improvement applies to all UUID versions.
 
 
 ### Time-series queries
@@ -125,6 +132,9 @@ SELECT uuid_int64_timestamp('b647e96b-862d-11e9-ae2b-db6f0f573554');
  2019-06-04 03:30:50.132721+09
 (1 row)
 ```
+
+In case of a UUID not of version 1, this method returns `NULL`.
+
 
 ## Conversion to/from standard data type
 
